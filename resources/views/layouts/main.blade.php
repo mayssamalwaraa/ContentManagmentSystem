@@ -14,7 +14,9 @@
             background-color: #f0f0f0;
         }
     </style>
-    @yield('name')
+    @yield('style')
+     <!-- Scripts -->
+      {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
   </head>
   <body dir="rtl" style="text-align: right">
     <div>
