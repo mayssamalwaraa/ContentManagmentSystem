@@ -1,10 +1,9 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('layouts.main');
-});
+Route::get('/', [PostController::class,'index']);
 
 Route::middleware([
     'auth:sanctum',
