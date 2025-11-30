@@ -9,7 +9,6 @@
 
     <div class="col-md-8">
         @includeWhen(count($posts)==0, 'alerts.empty', ['msg' => 'لا توجد منشورات'])
-        {{-- @includewhen(count($posts) == 0,'alerts.empty',['msg'=>'لا توجد منشورات']) --}}
         @foreach($posts as $post)
             <div class="card mb-3">
                 <div class="card-body">
@@ -50,9 +49,12 @@
         @endforeach
 
         <!-- Pagination -->
-        {{-- <ul class="pagination justify-content-center mb-4">
+        
+        <ul class="pagination  justify-content-center mb-4">
             {{ $posts->links() }}
-        </ul> --}}
+
+        </ul> 
+
     </div>
     @include('partials.sidebar')
 
