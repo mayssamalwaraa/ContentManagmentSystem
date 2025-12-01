@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -28,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -36,7 +37,35 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title'=>'required',
+            'title'=>'skug',
+            'body'=>'required',
+            'user_id'=>'required',
+            'category_id'=>'required'
+        ]);
+        $post = new Post;
+        $post->title = $request->title;
+        $post->slug = $request->title;
+        $post->body = $request->body;
+        $post->user_id = $request->user()->id;
+        $post->category_id = $request->category_id;
+
+        
+       
+         if ($request->hasFile('image')) {
+
+        $imageName = time() . '.' . $request->image->extension();
+
+        // Save inside public/uploads/books
+        $request->image->move(public_path('storage/images'), $imageName);
+        
+        $post->image_path = 'images/'.$imageName;
+
+    }
+
+        $post->save();
+        return back()->with('success','تم إضافة المنشور بنجاح.سيظهر بعد أن يوافق عليه المسؤول');
     }
 
     /**
@@ -70,5 +99,10 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function search(Request $request){
+        $posts = $this->post::where('body','LIKE','%'.$request->keyword.'%')->with('user')->approved()->paginate(10);
+        $title = "نتائج البحث عن :".$request->keyword;
+        return view('index',compact('posts','title'));
     }
 }
