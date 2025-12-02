@@ -16,7 +16,7 @@
     </div>
 
     <!-- Side Widget -->
-    {{-- <div class="card my-4 text-right">
+    <div class="card my-4 text-right">
         <h5 class="card-header">آخر التعليقات</h5>
         <ul class="list-group p-0">
             @foreach($recent_comments as $comment)
@@ -29,5 +29,5 @@
                 </li>
             @endforeach
         </ul>
-    </div> --}}
+    </div>
 </div>
