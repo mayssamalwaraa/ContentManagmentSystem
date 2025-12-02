@@ -75,7 +75,8 @@ class PostController extends Controller
     public function show(string $slug)
     {
         $post = $this->post::where('slug',$slug)->first();
-        return view('posts.show',compact('post'));
+        $comments = $post->comments->sortBydesc('created_at');
+        return view('posts.show',compact('post','comments'));
     }
 
     /**
