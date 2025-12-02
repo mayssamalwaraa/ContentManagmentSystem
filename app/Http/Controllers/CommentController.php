@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+    public $comment;
+    public function __construct(Comment $comment)
+    {
+        $this->comment = $comment;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +34,17 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'body'=>'required'
+        ]);
+        $comment = $this->comment;
+        $comment->body = $request->body;
+        $comment->user()->associate($request->user());
+        $comment->post_id = $request->post_id;
+        $post = Post::find($request->post_id);
+        $post->comments()->save($comment);
+        return back()->with('success','تم إضافة التعليق بنجاح');
+
     }
 
     /**

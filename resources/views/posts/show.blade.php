@@ -37,7 +37,7 @@
             <!-- comments form -->
             <div class="row form-group mt-5" >
                 <div class="col-lg-12 col-md-6 col-xs-11">
-                    <form action="#" id="comments" method="post">
+                    <form action="{{ route('comment.store') }}" id="comments" method="post">
                         @csrf
                         <div class="form-group">
                             <textarea class="form-control @error('body') is-invalid @enderror" rows="5" name="body" placeholder="أضف تعليقًا ..."></textarea>

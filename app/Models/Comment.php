@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     public function commentable(){
-        $this->morphTo();
+       return $this->morphTo();
     }
     public function user(){
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
     public function post(){
-        $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class);
     }
     public function replies(){
-        $this->hasMany(Comment::class,'parent_id');
+         return $this->hasMany(Comment::class,'parent_id');
     }
 }
