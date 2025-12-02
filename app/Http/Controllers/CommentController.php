@@ -46,6 +46,21 @@ class CommentController extends Controller
         return back()->with('success','تم إضافة التعليق بنجاح');
 
     }
+    public function replyStore(Request $request){
+        $request->validate([
+            'comment_body'=>'required',
+        ]);
+        $reply = new Comment();
+        $reply->body = $request->comment_body;
+        $reply->user()->associate($request->user());
+        $reply->parent_id = $request->comment_id;
+        $reply->post_id=$request->post_id;
+        $post = Post::findOrFail($request->post_id);
+
+        $post->comments()->save($reply);
+
+        return back()->with('success','تم إضافة الرد بنجاح');
+    }
 
     /**
      * Display the specified resource.
@@ -78,4 +93,5 @@ class CommentController extends Controller
     {
         //
     }
+
 }

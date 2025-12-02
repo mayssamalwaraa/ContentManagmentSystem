@@ -10,16 +10,16 @@
                         <div class="col-4">
                             <i class="far fa-clock"></i> <span class="comment_date text-secondary">{{$comment->created_at->diffForHumans()}}</span>
                         </div>
-                        <div class="col-4">
+                        {{-- <div class="col-4">
                             <span class="cursor-pointer reply-button">
                                 <i class="fa-solid fa-reply"></i> <span class="comment_date text-secondary">إضافة رد</span>
                             </span>
-                        </div>
+                        </div> --}}
                     </div>
                     <p class="my-3" >{{$comment->body}}</p>
 
                     @auth
-                        <form method="post" action="#" class="reply" id="reply">
+                        <form method="post" action="{{ route('reply.add')}}" class="reply" id="reply">
                             @csrf
                             <div class="form-group">
                                 <textarea class="form-control @error('comment_body') is-invalid @enderror" rows="5" name="comment_body" placeholder="أضف ردًا ..."></textarea>

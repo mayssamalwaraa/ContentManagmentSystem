@@ -9,6 +9,7 @@ Route::resource('/post',PostController::class);
 Route::post('/search',[PostController::class,'search'])->name('search');
 Route::get('/category/{id}/{search}',[PostController::class,'getByCategory'])->name('category');
 Route::resource('/comment',CommentController::class);
+Route::post('/reply/store',[CommentController::class,'replyStore'])->name('reply.add');
 
 Route::middleware([
     'auth:sanctum',
