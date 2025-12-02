@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
@@ -103,6 +104,11 @@ class PostController extends Controller
     public function search(Request $request){
         $posts = $this->post::where('body','LIKE','%'.$request->keyword.'%')->with('user')->approved()->paginate(10);
         $title = "نتائج البحث عن :".$request->keyword;
+        return view('index',compact('posts','title'));
+    }
+    public function getByCategory($id){
+        $posts = $this->post::with('user')->whereCategory_id($id)->approved()->paginate(10);
+        $title = "المنشورات العائدة لتصنيف". Category::find($id)->title;
         return view('index',compact('posts','title'));
     }
 }
