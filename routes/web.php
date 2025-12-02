@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PostController::class,'index']);
 Route::resource('/post',PostController::class);
 Route::post('/search',[PostController::class,'search'])->name('search');
-Route::get('/create',function(){
-    return view('creat');
-});
+
 
 Route::middleware([
     'auth:sanctum',

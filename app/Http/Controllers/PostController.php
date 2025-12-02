@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -39,41 +40,40 @@ class PostController extends Controller
     {
         $request->validate([
             'title'=>'required',
-            'title'=>'skug',
             'body'=>'required',
-            'user_id'=>'required',
             'category_id'=>'required'
         ]);
-        $post = new Post;
-        $post->title = $request->title;
-        $post->slug = $request->title;
-        $post->body = $request->body;
-        $post->user_id = $request->user()->id;
-        $post->category_id = $request->category_id;
+        $new_post = new Post;
+        $new_post->title = $request->title;
+        // $new_post->slug = $request->title;
+        $new_post->body = $request->body;
+        $new_post->user_id = $request->user()->id;
+        $new_post->category_id = $request->category_id;
 
         
        
          if ($request->hasFile('image')) {
 
-        $imageName = time() . '.' . $request->image->extension();
+                $imageName = time() . '.' . $request->image->extension();
 
-        // Save inside public/uploads/books
-        $request->image->move(public_path('storage/images'), $imageName);
-        
-        $post->image_path = 'images/'.$imageName;
+                // Save inside public/uploads/books
+                $request->image->move(public_path('storage/images'), $imageName);
+                
+                $new_post->image_path = 'images/'.$imageName;
 
-    }
+            }
 
-        $post->save();
-        return back()->with('success','تم إضافة المنشور بنجاح.سيظهر بعد أن يوافق عليه المسؤول');
+        $new_post->save();
+        // return back()->with('success','تم إضافة المنشور بنجاح.سيظهر بعد أن يوافق عليه المسؤول');
+        return redirect('/');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $post = $this->post::where('id',$id)->first();
+        $post = $this->post::where('slug',$slug)->first();
         return view('posts.show',compact('post'));
     }
 

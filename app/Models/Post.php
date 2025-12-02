@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Helpers\Slug;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -18,5 +21,13 @@ class Post extends Model
     }
     public function scopeApproved($query){
         return $query->whereApproved(1)->latest();
+    }
+    protected function title():Attribute{
+        return Attribute::make(
+            set : fn($value) =>[
+                'title'=>$value,
+                'slug'=>Slug::uniqueSlug($value,'posts'),
+            ],
+        );
     }
 }

@@ -57,7 +57,7 @@
 
 
 @section('script')
-
+{{-- 
     <script>
         function readCoverImage(input) {
             if (input.files && input.files[0]) {
@@ -69,7 +69,7 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-    </script>
+    </script> --}}
 
     
 @endsection
