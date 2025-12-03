@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentNotification;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -43,6 +44,14 @@ class CommentController extends Controller
         $comment->post_id = $request->post_id;
         $post = Post::find($request->post_id);
         $post->comments()->save($comment);
+
+        $data = [
+            'post_title'=>$post->title,
+            'post'=>$post,
+            'user_name'=>$request->user()->name,
+            'user_image'=>$request->user()->profile_photo_url
+        ];
+        event( new CommentNotification($data));
         return back()->with('success','تم إضافة التعليق بنجاح');
 
     }

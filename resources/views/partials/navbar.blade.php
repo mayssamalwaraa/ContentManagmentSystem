@@ -58,6 +58,9 @@
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell fa-fw fa-lg"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+                    </svg>
                     <!-- Counter - Alerts -->
                     <span class="badge badge-danger badge-counter notif-count" data-count="0">0</span>
                 </a>
@@ -65,28 +68,7 @@
                 <div class="dropdown-list dropdown-menu dropdown-menu-right text-right mt-2 mr-auto"
                     aria-labelledby="alertsDropdown">
                     <div class="alert-body">
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <div class="ml-3">
-                                <div class="icon-circle bg-primary">
-                                    <i class="fas fa-file-alt text-white"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="small text-gray-500">منذ 5 دقائق</div>
-                                <span>Ahmad hasan وضع تعليقًا على المنشور <b>دردشة حول تعلم البرمجة</b></span>
-                            </div>
-                        </a>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <div class="ml-3">
-                                <div class="icon-circle bg-primary">
-                                    <i class="fas fa-file-alt text-white"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="small text-gray-500">منذ 5 دقائق</div>
-                                <span>Ahmad hasan وضع تعليقًا على المنشور <b>دردشة حول تعلم البرمجة</b></span>
-                            </div>
-                        </a>
+                        
                     </div>
                     <a class="dropdown-item text-center small text-gray-500" href="#">عرض جميع الإشعارات</a>
                 </div>
@@ -95,7 +77,7 @@
 
     </div>
                     @guest
-                    <li class="nav-item">
+                    <li class="nav-item" style="list-style: none">
                         <a href="{{route('login')}}" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
@@ -104,7 +86,7 @@
                             {{__('تسجيل دخول')}}</a>
                     </li>
                     @if(Route::has('register'))
-                    <li class="nav-item">
+                    <li class="nav-item" style="list-style: none">
                         <a href="{{route('register')}}" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
                             <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>

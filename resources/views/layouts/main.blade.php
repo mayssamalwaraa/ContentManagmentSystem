@@ -63,7 +63,7 @@
     </style>
     @yield('style')
      <!-- Scripts -->
-      {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+      @vite([ 'resources/js/app.js'])
   </head>
   <body dir="rtl" style="text-align: right">
     <div>
@@ -105,6 +105,55 @@
         });
       </script>
       <script src="{!! asset('theme/js/sb-admin-2.min.js') !!}"></script>
+      <script type="module" >
+        
+            @if(Auth::check())
+                var post_userId = {{Auth::user()->id}};
+                Echo.private(`real-notification.${post_userId}`)
+                .listen('CommentNotification', (data) => {
+                    var notificationsWrapper = $('.alert-dropdown');
+                    var notificationsToggle = notificationsWrapper.find('a[data-bs-toggle]');
+                    var notificationsCountElem = notificationsToggle.find('span[data-count]');
+                    var notificationsCount = parseInt(notificationsCountElem.text());
+                    var notifications = notificationsWrapper.find('div.alert-body');
+
+                    var existingNotifications = notifications.html();
+                    var newNotificationHtml = '<a class="dropdown-item d-flex align-items-center" href="#">\
+                                                    <div class="ml-3">\
+                                                        <div">\
+                                                            <img style="float:right" src='+data.user_image+' width="50px" class="rounded-full"/>\
+                                                        </div>\
+                                                    </div>\
+                                                    <div>\
+                                                        <div class="small text-gray-500">'+data.date+'</div>\
+                                                        <span>'+data.user_name+' وضع تعليقًا على المنشور <b>'+data.post_title+'<b></span>\
+                                                    </div>\
+                                                </a>';
+                    notifications.html(newNotificationHtml + existingNotifications);
+                    notificationsCount += 1;  
+                    notificationsWrapper.find('.notif-count').text(notificationsCount);
+                    notificationsWrapper.show();
+                });
+            @endif
+        </script>
+        @if(Auth::check())
+<script type="module">
+    const userId = {{ Auth::id() }};
+    
+    // Subscribe to the private channel
+    Echo.private(`real-notification.${userId}`)
+        .listen('CommentNotification', (data) => {
+            // Log the entire API message to console
+            console.log('Received Pusher message:', data);
+
+            // Example: if you want to see a specific property
+            console.log('User Name:', data.user_name);
+            console.log('Post Title:', data.post_title);
+            console.log('User Image:', data.user_image);
+            console.log('Date:', data.date);
+        });
+</script>
+@endif
     @yield('script')
 
   </body>
