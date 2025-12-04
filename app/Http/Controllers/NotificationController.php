@@ -36,4 +36,14 @@ class NotificationController extends Controller
         $alert->save();
         return response()->json(['someNotifications'=>$data]);
     }
+    public function allNotification(){
+        $notifications = Notification::where([
+            ['user_id','!=',Auth::user()->id],
+            ['post_userId','=',Auth::user()->id]
+        ])
+        ->orderBy('created_at','desc')
+        ->paginate(10);
+        $title= 'جميع الإشعارات';
+        return view('notifications.show',compact('notifications','title'));
+    }
 }

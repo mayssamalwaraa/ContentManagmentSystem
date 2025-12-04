@@ -70,7 +70,7 @@
                     <div class="alert-body">
                         
                     </div>
-                    <a class="dropdown-item text-center small text-gray-500" href="#">عرض جميع الإشعارات</a>
+                    <a class="dropdown-item text-center small text-gray-500" href="{{ route('all.Notification')}}">عرض جميع الإشعارات</a>
                 </div>
             </li>
         @endauth
@@ -123,10 +123,10 @@
 
                                 <div class="mt-3 space-y-1">
                                     <!-- Account Management -->
-                                    {{-- <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                                    <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                                         {{ __('الملف الشخصي') }}
-                                    </x-responsive-nav-link> --}}
-                                    <a href="{{ route('profile.show')}}" class="dropdown-item">الملف الشخصي</a>
+                                    </x-responsive-nav-link>
+                                    {{-- <a href="{{ route('profile.show')}}" class="dropdown-item">الملف الشخصي</a> --}}
                                     <hr>
 
 
