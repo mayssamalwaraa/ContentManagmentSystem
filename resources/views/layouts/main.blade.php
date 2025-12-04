@@ -82,6 +82,8 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 
       <!-- ckeditor -->
       {{-- <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script> --}}
@@ -136,24 +138,51 @@
                 });
             @endif
         </script>
-        @if(Auth::check())
-<script type="module">
-    const userId = {{ Auth::id() }};
-    
-    // Subscribe to the private channel
-    Echo.private(`real-notification.${userId}`)
-        .listen('CommentNotification', (data) => {
-            // Log the entire API message to console
-            console.log('Received Pusher message:', data);
+        <script>
+            var token = '{{ Session::token() }}';
+            var urlNotify = '{{ route('notification') }}';
 
-            // Example: if you want to see a specific property
-            console.log('User Name:', data.user_name);
-            console.log('Post Title:', data.post_title);
-            console.log('User Image:', data.user_image);
-            console.log('Date:', data.date);
-        });
-</script>
-@endif
+            $('#alertsDropdown').on('click', function(event) {
+                event.preventDefault();
+                var notificationsWrapper = $('.alert-dropdown');
+                var notificationsToggle = notificationsWrapper.find('a[data-bs-toggle]');
+                var notificationsCountElem = notificationsToggle.find('span[data-count]');
+                
+                notificationsCount = 0;
+                notificationsCountElem.attr('data-count', notificationsCount);
+                notificationsWrapper.find('.notif-count').text(notificationsCount);
+                notificationsWrapper.show();
+
+                $.ajax({
+                    method: 'POST',
+                    url: urlNotify,
+                    data: {
+                        _token: token
+                    },
+                    success : function(data) {
+                        var resposeNotifications = "";
+                        $.each(data.someNotifications , function(i, item) {
+                            var post_slug = "{{ route('post.show', ':post_slug') }}";
+                            post_slug = post_slug.replace(':post_slug', item.post_slug);
+                            resposeNotifications += '<a class="dropdown-item d-flex align-items-center" href='+post_slug+'>\
+                                                        <div class="ml-3">\
+                                                            <div">\
+                                                                <img style="float:right" src='+item.user_image+' width="50px" class="rounded-full"/>\
+                                                            </div>\
+                                                        </div>\
+                                                        <div>\
+                                                            <div class="small text-gray-500">'+item.date+'</div>\
+                                                            <span>'+item.user_name+' وضع تعليقًا على المنشور <b>'+item.post_title+'<b></span>\
+                                                        </div>\
+                                                    </a>';
+                        
+
+                            $('.alert-body').html(resposeNotifications);
+                    });
+                    }
+                });
+            });
+        </script>
     @yield('script')
 
   </body>

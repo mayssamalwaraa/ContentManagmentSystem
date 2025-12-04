@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Events\CommentNotification;
+use App\Models\Alert;
 use App\Models\Comment;
+use App\Models\Notification;
 use App\Models\Post;
 use Illuminate\Http\Request;
+
+use function Laravel\Prompts\alert;
 
 class CommentController extends Controller
 {
@@ -44,6 +48,14 @@ class CommentController extends Controller
         $comment->post_id = $request->post_id;
         $post = Post::find($request->post_id);
         $post->comments()->save($comment);
+        $notification = new Notification();
+
+        if($request->user()->id != $post->user_id){
+            $notification->user_id = $request->user()->id;
+            $notification->post_id=$post->id;
+            $notification->post_userId = $post->user_id;
+            $notification->save();
+        }
 
         $data = [
             'post_title'=>$post->title,
@@ -52,6 +64,12 @@ class CommentController extends Controller
             'user_image'=>$request->user()->profile_photo_url
         ];
         event( new CommentNotification($data));
+        if($request->user()->id != $post->user_id){
+            $alert = Alert::where('user_id',$post->user_id)->first();
+            $alert->alert++;
+            $alert->save();
+
+        }
         return back()->with('success','تم إضافة التعليق بنجاح');
 
     }

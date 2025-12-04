@@ -62,7 +62,7 @@
                     <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
                     </svg>
                     <!-- Counter - Alerts -->
-                    <span class="badge badge-danger badge-counter notif-count" data-count="0">0</span>
+                    <span class="badge badge-danger badge-counter notif-count" data-count="{{App\Models\Alert::where('user_id',Auth::user()->id)->first()->alert}}">{{App\Models\Alert::where('user_id',Auth::user()->id)->first()->alert}}</span>
                 </a>
                 <!-- Dropdown - Alerts -->
                 <div class="dropdown-list dropdown-menu dropdown-menu-right text-right mt-2 mr-auto"
