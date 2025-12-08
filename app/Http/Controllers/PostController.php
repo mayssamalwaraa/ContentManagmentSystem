@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Slug;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -60,7 +62,7 @@ class PostController extends Controller
                 // Save inside public/uploads/books
                 $request->image->move(public_path('storage/images'), $imageName);
                 
-                $new_post->image_path = 'images/'.$imageName;
+                $new_post->image_path = $imageName;
 
             }
 
@@ -84,15 +86,42 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $post = $this->post::findOrFail($id);
+        return view('posts.edit',compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        
+        $request->validate([
+            'title'=>'required',
+            'body'=>'required',
+        ]);
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->slug=Slug::uniqueSlug($request->title,'posts');
+        $post->category_id = $request->category_id;
+       
+         if ($request->hasFile('image')) {
+        Storage::disk('public')->delete($post->image_path);
+
+        $imageName = time() . '.' . $request->image->extension();
+
+        // Save inside public/uploads/books
+        $request->image->move(public_path('storage/images'), $imageName);
+        
+        $post->image_path = $imageName;
+
+    }
+       
+
+        $post->save();
+
+        return redirect(route('post.show',$post->slug));
+        
     }
 
     /**
@@ -100,7 +129,10 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = $this->post::findOrFail($id);
+        Storage::disk('public')->delete($post->image_path);
+        $post->delete();
+        return back()->with('success','تم حذف المنشور بنجاح ');
     }
     public function search(Request $request){
         $posts = $this->post::where('body','LIKE','%'.$request->keyword.'%')->with('user')->approved()->paginate(10);
