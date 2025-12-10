@@ -22,16 +22,21 @@ Route::post('/notification',[NotificationController::class,'index'])->name('noti
 Route::get('/notification',[NotificationController::class,'allNotification'])->name('all.Notification');
 Route::get('user/{id}',[UserController::class,'getPostsByUser'])->name('profile');
 Route::get('user/{id}/comments',[UserController::class,'getCommentsByUser'])->name('user_comments');
-Route::get('admin/dashboard',[DashController::class,'index'])->name('admin.dashboard');
-Route::resource('admin/category',CategoryController::class);
-Route::resource('admin/posts',AdminPostController::class);
-Route::resource('admin/role',RoleController::class);
-Route::get('admin/permission',[PermissionController::class,'index'])->name('permissions');
-Route::post('admin/permission',[PermissionController::class,'store'])->name('permissions');
 
-Route::get('permission/byRole',[RoleController::class,'getByRole'])->name('permission_byRole');
-Route::resource('admin/user',UserController::class);
-Route::resource('admin/page',PageController::class);
+Route::group(['prefix'=>'admin','middleware'=>'Admin'],function(){
+    
+Route::get('/dashboard',[DashController::class,'index'])->name('admin.index');
+Route::resource('/category',CategoryController::class);
+Route::resource('/posts',AdminPostController::class);
+Route::resource('/role',RoleController::class);
+Route::get('/permission',[PermissionController::class,'index'])->name('permissions');
+Route::post('/permission',[PermissionController::class,'store'])->name('permissions');
+
+Route::resource('/user',UserController::class);
+Route::resource('/page',PageController::class);
+
+});
+Route::get('permission/byRole',[RoleController::class,'getByRole'])->name('permission_byRole')->middleware('Admin');
 
 
 

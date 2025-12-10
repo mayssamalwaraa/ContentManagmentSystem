@@ -102,10 +102,11 @@
                             <img  class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url}}" alt="{{Auth::user()->name}}">
                         </a>
                     <div class="dropdown-menu dropdown-menu-left px-2 text-right mt-2">
-                        @can('update-books')
+                        {{-- @can('update-books') --}}
+                        @admin
                         <a href="{{ route('admin.index')}}" class="dropdown-item">لوحة الإدارة</a>
-                            
-                        @endcan
+                        @endadmin 
+                        {{-- @endcan --}}
                         <hr>
                             <div class="pt-4 pb-1 border-t border-gray-200">
                                 

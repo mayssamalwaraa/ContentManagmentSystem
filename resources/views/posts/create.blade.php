@@ -25,7 +25,7 @@
                 </span>
             @enderror
         </div>
-
+        
         <label for="editor" class="mb-2">محتوى المنشور</label>
         <div class="input-group ">
             <textarea id="editor" class="form-control  @error('body') is-invalid @enderror" name="body" rows="6" cols="6">{{old('body')}}</textarea>
@@ -71,5 +71,36 @@
         }
     </script> --}}
 
-    
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ), {
+                language: {
+                // The UI will be Arabic.
+                ui: 'ar',
+
+                // the content will be edited in Arabic.
+                content: 'ar'
+                },
+                
+                toolbar: {
+                    items: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'undo',
+                    'redo',
+                    '|',
+                    'Blockquote'
+                    ]
+                }
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
 @endsection
