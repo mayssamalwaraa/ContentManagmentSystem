@@ -23,9 +23,9 @@
                 </a>
 
                 <div class="dropdown-menu text-right">
-                    {{-- @foreach($pages as $page)
+                    @foreach($pages as $page)
                         <a class="dropdown-item" href="{{ route('page.show',$page->slug ) }}">{{ $page->title }}</a>
-                    @endforeach --}}
+                    @endforeach
                 </div>
             </li>
         </ul>

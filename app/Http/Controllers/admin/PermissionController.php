@@ -1,24 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class PermissionController extends Controller
 {
-    public $category;
+    public $permission;
 
-    public function __construct(Category $category)
+    public function __construct(Permission $permission)
     {
-        $this->category = $category;
+        $this->permission =  $permission;
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.category',['categories'=>$this->category::all()]);
+        $permissions = $this->permission::all();
+        return view('admin.permissions.index',compact('permissions'));
     }
 
     /**
@@ -34,11 +38,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title'=>'required',
-        ]);
-        $this->category->create($request->all()+['name'=>$request->title,'slug'=>$request->title]);
-        return back()->with('sucees',"تم إضافة التصنيف بنجاح");
+        Role::find($request->role_id)->permissions()->sync($request->permission);
+        return back()->with('success','تم حفظ الصلاحيات الجديدة');
     }
 
     /**
@@ -70,7 +71,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->category->findOrFail($id)->delete();
-        return back()->with('success','تم حذف التصنيف بنجاح');
+        //
     }
+   
 }

@@ -115,7 +115,7 @@ class PostController extends Controller
         
         $post->image_path = $imageName;
 
-    }
+        }
        
 
         $post->save();

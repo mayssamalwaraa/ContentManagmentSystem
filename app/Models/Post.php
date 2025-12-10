@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
+    protected $fillable = ['title','slug','approved','image_path','body','category_id'];
    
     public function category(){
         return $this->belongsTo(Category::class);
