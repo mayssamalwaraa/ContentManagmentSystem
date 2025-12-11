@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\Slug;
 use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -87,6 +87,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $post = $this->post::findOrFail($id);
+        abort_unless(Auth::user()->can('edit-post',$post),403);
         return view('posts.edit',compact('post'));
     }
 
@@ -130,6 +131,7 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         $post = $this->post::findOrFail($id);
+        abort_unless(Auth::user()->can('delete-post',$post),403);
         Storage::disk('public')->delete($post->image_path);
         $post->delete();
         return back()->with('success','تم حذف المنشور بنجاح ');

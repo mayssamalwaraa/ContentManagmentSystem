@@ -83,4 +83,8 @@ class User extends Authenticatable
     public function isAdmin(){
         return $this->role->id == 1;
     }
+    public function hasAllow($permission){
+        $role = $this->role()->first();
+        return $role->permissions()->whereName($permission) ? true : false ;
+    }
 }

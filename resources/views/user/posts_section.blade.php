@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-12">
                         @if (Auth::check())
-                            {{-- @can('delete-post', $post) --}}
+                            @can('delete-post', $post)
                                 <form method="POST" action="{{ route('post.destroy', $post->id) }}" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف المنشور هذا؟')">
                                     @csrf
                                     @method('DELETE')
@@ -17,9 +17,9 @@
                                     </svg>
                                     </button>
                                 </form>
-                            {{-- @endcan --}}
+                            @endcan
 
-                            {{-- @can('edit-post', $post) --}}
+                            @can('edit-post', $post)
                             <form method="GET" action="{{ route('post.edit', $post->id) }}">
                                 @csrf
                                 @method('PATCH')
@@ -28,7 +28,7 @@
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                 </svg></button>
                             </form>
-                            {{-- @endcan --}}
+                            @endcan
 
                         @endif
                         <img style="float:right" src="{{ $post->user->profile_photo_url }}" width="50px" class="rounded-full"/>
