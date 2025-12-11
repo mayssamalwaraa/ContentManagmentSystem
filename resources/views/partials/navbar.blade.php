@@ -135,15 +135,25 @@
                                     @endif
 
                                     <!-- Authentication -->
-                                    <form method="POST" action="{{ route('logout') }}" x-data>
+                                    
+                                    {{-- <form method="POST" action="{{ route('logout') }}" x-data>
                                         @csrf
+                                        @method('POST')
 
                                         <x-responsive-nav-link href="{{ route('logout') }}"
                                                     onclick="event.preventDefault();
                                                     this.cloest('form').submit()">
                                             {{ __('تسجيل الخروج') }}
                                         </x-responsive-nav-link>
-                                    </form>
+                                    </form> --}}
+                                    {{-- <form method="POST" action="{{ route('logout') }}" x-data>
+                                        @csrf
+
+                                        <x-dropdown-link href="{{ route('logout') }}"
+                                                @click.prevent="$root.submit();">
+                                            {{ __('تسجيل الخروج') }}
+                                        </x-dropdown-link>
+                                    </form> --}}
 
                                     <!-- Team Management -->
                                     @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
