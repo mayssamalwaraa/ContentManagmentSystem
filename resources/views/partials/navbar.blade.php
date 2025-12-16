@@ -136,16 +136,15 @@
 
                                     <!-- Authentication -->
                                     
-                                    {{-- <form method="POST" action="{{ route('logout') }}" x-data>
+                                    <form method="POST" action="{{ route('logout') }}" id="logout-form" class="d-none">
                                         @csrf
-                                        @method('POST')
+                                    </form>
 
-                                        <x-responsive-nav-link href="{{ route('logout') }}"
-                                                    onclick="event.preventDefault();
-                                                    this.cloest('form').submit()">
-                                            {{ __('تسجيل الخروج') }}
-                                        </x-responsive-nav-link>
-                                    </form> --}}
+                                    <a href="{{ route('logout') }}" 
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        {{ __(' تسجيل الخروج') }}
+                                    </a>
+
                                     {{-- <form method="POST" action="{{ route('logout') }}" x-data>
                                         @csrf
 
